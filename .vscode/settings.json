@@ -1,0 +1,11 @@
+{
+  // Piège connu du projet : une variable PYTHONIOENCODING héritée du poste
+  // (utf-8:surrogateescape) casse la console de Robot Framework. Les
+  // terminaux VS Code du projet forcent la valeur saine ; hors VS Code,
+  // préfixer : $env:PYTHONIOENCODING='utf-8'; robot …
+  "terminal.integrated.env.windows": {
+    "PYTHONIOENCODING": "utf-8"
+  },
+  // Prompt files GitHub Copilot (.github/prompts/*.prompt.md)
+  "chat.promptFiles": true
+}

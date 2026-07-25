@@ -1,0 +1,6 @@
+# Normalisation des fins de ligne entre postes (portabilité Windows/Linux) :
+# LF dans le dépôt, conversion locale selon l'OS.
+* text=auto
+*.png binary
+*.jpg binary
+*.mp4 binary

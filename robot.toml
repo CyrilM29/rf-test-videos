@@ -1,0 +1,6 @@
+# Configuration Robot Framework partagée (lue par RobotCode/IDE et rf-cli).
+# Même rôle que dans le projet SAPFX : garder le résolveur de l'IDE et la CLI
+# alignés. Les suites n'ont besoin d'aucun pythonpath (imports relatifs),
+# "." couvre variables/ pour l'IDE.
+python-path = ["."]
+output-dir = "results"

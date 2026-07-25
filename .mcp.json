@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "robotmcp": {
+      "command": "python",
+      "args": ["-m", "robotmcp.server"]
+    }
+  }
+}

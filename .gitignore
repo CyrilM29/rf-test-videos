@@ -1,0 +1,22 @@
+# Artefacts régénérables (convention 6)
+work/
+results/
+
+# Vidéos sources : lourdes et jetables — la spec et la suite générée sont
+# les artefacts durables.
+videos/*
+!videos/README.md
+
+# Artefacts de la session live robotmcp (/finalize-rf)
+.robotmcp_artifacts/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# IDE / Robot Framework
+.robotcode_cache/
+log.html
+report.html
+output.xml
