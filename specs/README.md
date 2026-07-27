@@ -47,4 +47,11 @@ formats, messages — notes factuelles pour la génération>
 ## Points de vigilance
 
 ## Écarts constatés à la génération
+
+## Fidélité visuelle
+
+<renseignée par /finalize-rf : date du contrôle, verdict par scénario
+(conforme | écart) en comparant les frames de la vidéo aux captures de
+l'exécution réelle — les écarts de données sont attendus, seuls comptent
+structure et flux>
 ```

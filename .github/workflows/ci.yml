@@ -1,0 +1,44 @@
+# CI qualité du dépôt : traçabilité spec ↔ suite, lint Robocop, dry-run de
+# toutes les suites. Aucun SUT n'est nécessaire — l'exécution réelle reste
+# locale (/finalize-rf) ; la CI garantit que ce qui est commité est cohérent.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  qualite:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Installer Robot Framework + Browser + Robocop
+        # Sous-ensemble de requirements.txt : whisper, pillow et rf-mcp ne
+        # servent qu'en local. --skip-browsers : le dry-run importe la
+        # librairie Browser sans lancer de navigateur.
+        run: |
+          pip install robotframework==7.4.2 robotframework-browser==20.0.0 robotframework-robocop==8.3.2
+          rfbrowser init --skip-browsers
+
+      - name: Traçabilité spec ↔ suite + conventions (check_specs)
+        run: python scripts/check_specs.py
+
+      - name: Lint Robot Framework (Robocop)
+        run: python -m robocop check tests resources
+
+      - name: Dry-run de toutes les suites
+        run: robot --dryrun --outputdir results/dry_ci tests/robot/ui
+
+      - name: Publier les rapports du dry-run
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dryrun-results
+          path: results/dry_ci

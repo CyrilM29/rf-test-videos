@@ -5,7 +5,7 @@ Documentation    Parcours de consultation OrangeHRM — connexion, référentiel
 ...              formulaire d'ajout de candidat (démo publique OrangeHRM OS 5.9).
 ...              Pilotage : Browser (Playwright) via common.resource.
 ...
-...              Spec: specs/test-video-to-rf.md (sha256:992577732f42, 2026-07-25)
+...              Spec: specs/test-video-to-rf.md (sha256:0f4691ce36e8, 2026-07-27)
 ...
 ...              Exécution (mot de passe jamais committé — convention projet) :
 ...              $env:PYTHONIOENCODING='utf-8'; robot -v APP_PASSWORD:admin123

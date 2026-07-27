@@ -181,3 +181,23 @@
   qu'un navigateur au catalogue avait une page active ; or Browser ferme les
   pages en fin de test (auto-close TEST) en laissant le navigateur ouvert.
   Corps réécrit avec TRY/EXCEPT sur `Get Url` (login.resource).
+
+## Fidélité visuelle
+
+Contrôle du 2026-07-27 (session live robotmcp : rejeu des 6 scénarios via les
+keywords des page objects, capture de l'écran de fin de chaque scénario —
+`results/fidelity/` — comparée à la frame vidéo de l'horodatage
+correspondant). Runs réels du jour : verts 2× (`results/test-video-to-rf_live`,
+`_live2`).
+
+| Scénario | Frame vidéo | Capture | Verdict |
+| --- | --- | --- | --- |
+| 1. Connexion → tableau de bord | 00:15 | s1_dashboard | **conforme** — mêmes widgets (Time at Work, My Actions, Quick Launch, Buzz) ; réagencement 2 vs 3 colonnes dû à la largeur de fenêtre, utilisateur de démo différent (données) |
+| 2. Utilisateurs système | 00:25 | s2_admin_users | **conforme** — mêmes filtres/actions ; « (6) Records Found » vs « (4) » (données) |
+| 3. Liste des employés | 00:30 | s3_pim_employees | **conforme** — mêmes filtres/colonnes ; 109 vs 104 enregistrements (données) |
+| 4. Congés « Pending Approval » | 00:35 | s4_leave_search | **conforme** — même état : chip « Pending Approval », période par défaut, « No Records Found » |
+| 5. Candidats filtrés | 00:55 | s5_candidates_filtered | **conforme** — mêmes 4 filtres appliqués, même état « No Records Found » |
+| 6. Formulaire Add Candidate | 01:00 | s6_add_candidate_form | **conforme** — mêmes champs (Full Name, Vacancy, Email*, Resume…) ; date du jour différente (donnée) |
+
+**Bilan : 6/6 conformes** — aucun écart de structure ni de flux entre la
+vidéo (enregistrée le 2026-07-25) et le SUT du 2026-07-27.

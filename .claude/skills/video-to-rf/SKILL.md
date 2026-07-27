@@ -18,18 +18,19 @@ vérité ; 5 : keyword manquant explicite).
 - Lancer (timeout ≥ 10 min : le premier run télécharge le modèle whisper) :
   `python scripts/prepare_video.py <vidéo> [options]`
 - Le script imprime le dossier de travail `work/<slug>/`. Lire `meta.json`
-  et `audio_transcript.md`.
+  et `storyboard.md` (frames et voix off déjà fusionnées, chronologiques).
 
-## 2. Lire la vidéo (frames + voix off)
+## 2. Lire la vidéo (storyboard + frames)
 
-- Lire les frames de `work/<slug>/frames/` en **ordre chronologique** (le nom
-  porte l'horodatage : `frame_012_t01m23.5s.jpg`), par lots de 6 à 8 appels
-  Read en parallèle par message. Lire **toutes** les frames — si la vidéo en
-  produisait trop, le script a déjà échantillonné et l'a dit ; ne jamais
-  sous-échantillonner davantage en silence.
-- Croiser chaque frame avec les segments de voix off qui l'encadrent
-  (horodatages) : la voix off donne l'**intention**, la frame donne
-  l'**observé**. En cas de contradiction, l'observé gagne et l'écart est noté.
+- `work/<slug>/storyboard.md` est le **fil conducteur** : une section par
+  frame, avec la voix off prononcée jusqu'à la frame suivante. La voix off
+  donne l'**intention**, la frame donne l'**observé** ; en cas de
+  contradiction, l'observé gagne et l'écart est noté.
+- Lire **toutes** les frames de `work/<slug>/frames/` dans l'ordre du
+  storyboard, par lots de 6 à 8 appels Read en parallèle par message. Si la
+  vidéo en produisait trop, le script a déjà échantillonné (et écarté les
+  quasi-doublons — dHash) et l'a dit ; ne jamais sous-échantillonner
+  davantage en silence.
 - Tenir un relevé étape par étape : `[t]` écran visible, action déduite du
   passage frame N → N+1, données saisies (valeurs lues à l'écran), résultat
   visible. Ce qui est flou ou incertain est noté comme tel — jamais inventé.
@@ -68,10 +69,13 @@ vérité ; 5 : keyword manquant explicite).
 - Étapes en langage métier ; AUCUN id/CSS/XPath dans les étapes. Ce qui est
   lu à l'écran (libellés, valeurs, volumétries, formats) va dans « Données
   observées » et « Points de vigilance ».
-- Inventorier les keywords existants AVANT d'écrire : chercher les sections
-  `*** Keywords ***` dans `resources/**/*.resource` (Grep). Chaque étape
-  référence un keyword existant quand il y en a un ; sinon l'inscrire dans
-  « Keywords métier manquants » du scénario.
+- **Capitaliser AVANT d'écrire** : lancer
+  `python scripts/inventory_pages.py` — il liste, par écran, les keywords
+  existants et l'état de leurs locators (« prêt » = déjà relevés sur le SUT :
+  réutilisables sans repasser par `/finalize-rf`). Chaque étape référence un
+  keyword existant quand il y en a un ; sinon l'inscrire dans « Keywords
+  métier manquants » du scénario. Compléter au besoin par un Grep
+  `*** Keywords ***` dans `resources/common.resource`.
 
 ## 5. Générer la suite
 
@@ -115,6 +119,11 @@ vérité ; 5 : keyword manquant explicite).
 - `$env:PYTHONIOENCODING='utf-8'; robot --dryrun --outputdir results/dry_<slug> tests/robot/ui/<domaine>/<slug>.robot`
 - RC ≠ 0 → corriger (keyword non résolu, import cassé) et relancer. Ne
   jamais livrer sans dry-run vert.
+- Puis les deux contrôles de la CI (mêmes commandes qu'en
+  `.github/workflows/ci.yml`) :
+  `python scripts/check_specs.py` (référence de spec exacte, conventions
+  1/2/4) et `$env:PYTHONIOENCODING='utf-8'; python -m robocop check tests resources`
+  (lint, config `robocop.toml`). Corriger jusqu'à zéro erreur.
 
 ## 8. Rapport final
 

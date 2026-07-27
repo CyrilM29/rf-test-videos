@@ -82,14 +82,20 @@ Options utiles (transmises au script de préparation) :
 | `--language fr` | force la langue de la voix off (recommandé) | détection auto |
 | `--model base` \| `small` \| `medium` | précision/poids du modèle de transcription | `small` |
 | `--scene 0.2` | seuil de détection des changements d'écran (plus haut = moins d'images) | `0.10` |
+| `--dedup 0` | désactive l'élimination des images quasi identiques (utile si des étapes ne diffèrent que par une saisie clavier) | `2` |
 | `--no-audio` | ignore la piste audio | — |
 | `--force` | refait la transcription audio d'une vidéo déjà préparée | — |
 
+Pour préparer un **lot de vidéos** d'un coup (le script seul, hors skill) :
+`python scripts/prepare_video.py videos/` — puis lancer `/video-to-rf` sur
+chaque vidéo.
+
 La skill enchaîne alors :
 
-1. découpage de la vidéo en images aux changements d'écran + transcription
-   horodatée de la voix off (`work/<nom>/`) ;
-2. lecture chronologique des images, croisée avec la voix off ;
+1. découpage de la vidéo en images aux changements d'écran (les images quasi
+   identiques sont écartées) + transcription horodatée de la voix off, le
+   tout fusionné en un **storyboard** chronologique (`work/<nom>/`) ;
+2. lecture des images dans l'ordre du storyboard, croisée avec la voix off ;
 3. **checkpoint librairies** : la skill identifie les canaux en jeu dans la
    vidéo (web, desktop, SAP, mobile…) et vérifie qu'une librairie de
    pilotage couvre chacun. Si ce n'est pas le cas, **elle vous pose la
@@ -144,8 +150,13 @@ l'application et remplacer le `${EMPTY}` de la variable dans
 **Ce relevé est lui aussi assisté** : la skill `/finalize-rf` pilote
 l'application réelle depuis VS Code (serveur MCP `robotmcp`, déclaré dans le
 projet) — elle navigue écran par écran, inspecte le DOM, choisit des
-localisateurs robustes, les **valide en direct** avant de les écrire, puis
-prouve la rejouabilité par deux exécutions réelles vertes :
+localisateurs robustes, les **valide en direct** avant de les écrire, prouve
+la rejouabilité par deux exécutions réelles vertes, puis compare les captures
+de l'exécution aux images de la vidéo (**fidélité visuelle**) : le verdict
+par scénario est consigné dans la spec et un **rapport HTML** comparant
+chaque image vidéo à la capture d'exécution est généré dans
+`results/fidelity/<nom>/report.html` — autonome (images embarquées), il
+s'ouvre dans n'importe quel navigateur et se partage tel quel :
 
 ```text
 /finalize-rf test-video-to-rf
@@ -193,7 +204,33 @@ Rapports dans `results/<nom>/report.html` et `log.html`. Le mot de passe ne
 se met jamais dans un fichier : `-v "APP_PASSWORD: Secret:…"` en ligne de
 commande.
 
-## 7. FAQ / dépannage
+## 7. Qualité continue et golden set
+
+Trois garde-fous tournent en continu (localement et dans la CI GitHub
+Actions à chaque push) :
+
+- `python scripts/check_specs.py` — vérifie que chaque suite référence sa
+  spec avec la bonne empreinte sha256 (une spec modifiée sans régénération
+  est détectée) et que les conventions structurantes sont respectées ;
+- `python -m robocop check tests resources` — lint Robot Framework (préfixer
+  par `$env:PYTHONIOENCODING='utf-8';` hors des terminaux du projet) ;
+- `robot --dryrun` sur toutes les suites.
+
+**Capitalisation** : les écrans déjà couverts se réutilisent —
+`python scripts/inventory_pages.py` liste les keywords existants et l'état
+de leurs localisateurs (« prêt » = déjà relevés sur le SUT). Plus vous
+traitez de vidéos sur la même application, moins chaque nouvelle vidéo
+coûte.
+
+**Golden set (recommandé)** : conservez hors git 3 ou 4 vidéos de référence
+couvrant vos cas types (web simple, formulaire, multi-écrans, sans voix
+off). Après toute évolution du pipeline, repassez-les dans `/video-to-rf`
+et comparez les specs produites aux précédentes : c'est le test de
+non-régression du pipeline lui-même. La section « Fidélité visuelle » des
+specs (renseignée par `/finalize-rf`) sert de métrique : scénarios conformes
+/ total.
+
+## 8. FAQ / dépannage
 
 **`robot --version` plante avec `LookupError: unknown encoding`.**
 La variable d'environnement `PYTHONIOENCODING=utf-8:surrogateescape` du poste

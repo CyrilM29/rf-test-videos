@@ -44,7 +44,8 @@ aucun secret écrit dans un fichier.
 
 - SUT contredit un corps de keyword ou la spec → consigner dans « Écarts
   constatés à la génération » de la spec, PUIS corriger le page object.
-  Rafraîchir le sha256 de la spec dans l'en-tête de la suite.
+  Rafraîchir le sha256 de la spec dans l'en-tête de la suite
+  (`python scripts/check_specs.py` vérifie la concordance).
 
 ## 5. Valider (obligatoire — rejouabilité prouvée)
 
@@ -53,8 +54,29 @@ aucun secret écrit dans un fichier.
   `results/<slug>/log.html` + session live, corriger (jamais un `Sleep`),
   relancer. **Deux exécutions réelles vertes consécutives** exigées.
 
-## 6. Rapport final
+## 6. Preuve de fidélité visuelle (vidéo ↔ exécution)
+
+- Prérequis : `work/<slug>/storyboard.md` + frames (les régénérer via
+  `python scripts/prepare_video.py videos/<slug>.*` si purgés ; vidéo absente
+  → sauter en le notant).
+- Par scénario de la spec : rejouer en session live jusqu'à l'écran de fin,
+  capture (`Take Screenshot`), comparaison visuelle avec la frame du
+  storyboard à l'horodatage de fin (l'outil `visual_check` de robotmcp peut
+  aider). Verdict `conforme` | `écart` — les différences de données sont
+  attendues, seuls comptent structure et flux.
+- Rapport HTML : écrire `results/fidelity/<slug>/manifest.json` (schéma en
+  tête de `scripts/fidelity_report.py`) puis
+  `python scripts/fidelity_report.py <slug>` →
+  `results/fidelity/<slug>/report.html` (autonome, images embarquées).
+- Bilan aussi dans la section « Fidélité visuelle » de la spec (date +
+  verdicts — artefact durable) ; écart de flux → aussi dans « Écarts… » +
+  rafraîchir le sha256 (étape 4).
+
+## 7. Rapport final
 
 Locators renseignés/restants (avant → après) ; écarts consignés ; résultats
-des runs (`results/<slug>/`) ; corps de keywords ajustés. Fermer la session
+des runs (`results/<slug>/`) ; bilan de fidélité visuelle par scénario +
+chemin du rapport HTML ;
+corps de keywords ajustés ; les locators relevés enrichissent les page
+objects partagés (`python scripts/inventory_pages.py`). Fermer la session
 live (`Close Browser    ALL`).

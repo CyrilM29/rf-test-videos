@@ -19,12 +19,14 @@ sinon s'arrêter et le dire.
   s'arrêter avec un message clair.
 - Lancer dans le terminal (long au premier run : téléchargement du modèle
   whisper) : `python scripts/prepare_video.py <vidéo> [options]`
-- Lire `work/<slug>/meta.json` et `work/<slug>/audio_transcript.md`.
+- Lire `work/<slug>/meta.json` et `work/<slug>/storyboard.md` (frames et
+  voix off fusionnées, chronologiques).
 
-## 2. Lire la vidéo (frames + voix off)
+## 2. Lire la vidéo (storyboard + frames)
 
-- Lire TOUTES les frames de `work/<slug>/frames/` en ordre chronologique (le
-  nom porte l'horodatage). Ne jamais sous-échantillonner en silence.
+- `storyboard.md` est le fil conducteur ; lire TOUTES les frames de
+  `work/<slug>/frames/` dans son ordre. Ne jamais sous-échantillonner en
+  silence (le script a déjà échantillonné et écarté les quasi-doublons).
 - La voix off donne l'intention, la frame donne l'observé ; en cas de
   contradiction, l'observé gagne et l'écart est noté. Ce qui est flou est
   noté comme tel — jamais inventé.
@@ -46,9 +48,10 @@ sinon s'arrêter et le dire.
 - `specs/<slug>.md` selon le gabarit de `specs/README.md`. Scénarios
   autonomes, étapes en langage métier (aucun id/CSS/XPath), données lues à
   l'écran dans « Données observées » / « Points de vigilance ».
-- Inventorier les keywords existants (`*** Keywords ***` dans
-  `resources/**/*.resource`) avant d'écrire ; manquants → section
-  « Keywords métier manquants ».
+- Capitaliser avant d'écrire : `python scripts/inventory_pages.py` liste par
+  écran les keywords existants et l'état des locators (« prêt » = relevés,
+  réutilisables sans SUT) ; manquants → section « Keywords métier
+  manquants ».
 
 ## 5. Générer la suite
 
@@ -73,6 +76,9 @@ sinon s'arrêter et le dire.
 
 - `$env:PYTHONIOENCODING='utf-8'; robot --dryrun --outputdir results/dry_<slug> tests/robot/ui/<domaine>/<slug>.robot`
 - RC ≠ 0 → corriger et relancer. Ne jamais livrer sans dry-run vert.
+- Puis les contrôles de la CI : `python scripts/check_specs.py` et
+  `$env:PYTHONIOENCODING='utf-8'; python -m robocop check tests resources`
+  (config `robocop.toml`). Corriger jusqu'à zéro erreur.
 
 ## 8. Rapport final
 

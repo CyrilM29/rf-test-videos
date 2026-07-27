@@ -7,8 +7,8 @@ Documentation    Keywords transverses du projet : setup/teardown génériques et
 ...              Librairie de pilotage du SUT : Browser (Playwright), choisie
 ...              le 2026-07-25. Les suites générées n'importent jamais une
 ...              Library directement — elles passent par ce fichier.
-Library          Browser
 Library          String
+Library          Browser
 
 
 *** Keywords ***

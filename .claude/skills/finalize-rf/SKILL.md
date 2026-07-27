@@ -67,6 +67,10 @@ Pour chaque écran / page object :
   section « Écarts constatés à la génération » de la spec, PUIS corriger le
   page object en conséquence. La spec reste la source de vérité (convention
   4) — la suite ne se retouche pas à la main.
+- Toute modification de la spec → **rafraîchir l'empreinte** `sha256:<12 hex>`
+  dans l'en-tête `Documentation` de la suite
+  (`(Get-FileHash specs\<slug>.md -Algorithm SHA256).Hash.Substring(0,12).ToLower()`) ;
+  `python scripts/check_specs.py` vérifie la concordance.
 
 ## 5. Valider (obligatoire — rejouabilité prouvée)
 
@@ -79,9 +83,44 @@ Pour chaque écran / page object :
   relancer. **Deux exécutions réelles vertes consécutives** pour conclure à
   la rejouabilité (données volatiles de démo ≠ test instable).
 
-## 6. Rapport final
+## 6. Preuve de fidélité visuelle (vidéo ↔ exécution)
+
+La rejouabilité (runs verts) ne prouve pas encore que la suite rejoue **ce
+que la vidéo montre**. Fermer cette boucle :
+
+- Prérequis : `work/<slug>/storyboard.md` et ses frames. S'ils ont été
+  purgés (`work/` est jetable), les régénérer si la vidéo est encore là
+  (`python scripts/prepare_video.py videos/<slug>.*`) ; sinon sauter l'étape
+  en le notant dans le rapport.
+- Pour chaque scénario de la spec : rejouer en session live (`execute_step`)
+  jusqu'à l'écran de fin de scénario, prendre une capture
+  (`Take Screenshot`), puis la **comparer visuellement** (Read des deux
+  images côte à côte — l'outil `visual_check` de robotmcp peut aider) à la
+  frame du storyboard correspondant à l'horodatage de fin du scénario.
+- Verdict par scénario : `conforme` (même écran, même état métier) ou
+  `écart` (décrire : élément déplacé, libellé changé, flux différent…). Les
+  différences de **données** (compteurs, listes) sont attendues — le jeu de
+  données a changé depuis l'enregistrement ; seul l'écart de **structure ou
+  de flux** compte.
+- Produire le **rapport HTML** : écrire
+  `results/fidelity/<slug>/manifest.json` (captures dans le même dossier ;
+  schéma documenté en tête de `scripts/fidelity_report.py` : un objet par
+  scénario — n, titre, timestamp, frame, capture, verdict
+  `conforme`|`écart`, note) puis lancer
+  `python scripts/fidelity_report.py <slug>` →
+  `results/fidelity/<slug>/report.html`, autonome (images embarquées en
+  base64 : partageable, survit à la purge de `work/` et des captures).
+- Consigner aussi le bilan dans la section « Fidélité visuelle » de la spec
+  (date, verdict par scénario) — la spec reste l'artefact durable, le
+  rapport HTML est la vue partageable. Un écart de flux → aussi dans
+  « Écarts constatés à la génération », et rafraîchir le sha256 (étape 4).
+
+## 7. Rapport final
 
 Terminer par : locators renseignés / restants (avant → après) ; écarts
 consignés dans la spec ; résultat des exécutions réelles (chemins
-`results/<slug>/`) ; keywords dont le corps a dû être ajusté. Fermer la
-session live (`manage_session`).
+`results/<slug>/`) ; bilan de fidélité visuelle par scénario + chemin du
+rapport HTML (`results/fidelity/<slug>/report.html`) ; keywords dont
+le corps a dû être ajusté ; rappel que les locators relevés enrichissent les
+page objects partagés (`python scripts/inventory_pages.py` pour l'inventaire
+à jour). Fermer la session live (`manage_session`).

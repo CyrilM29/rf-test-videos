@@ -10,7 +10,14 @@ rejouabilité par deux exécutions réelles vertes.
 vidéo (.mp4) → /video-to-rf → specs/<slug>.md → tests/robot/ui/… (dry-run vert)
                                              → page objects (locators TODO)
              → /finalize-rf → locators relevés sur le SUT → 2 runs réels verts
+                            → fidélité visuelle vidéo ↔ exécution : verdicts
+                              dans la spec + rapport HTML autonome
+                              (results/fidelity/<slug>/report.html)
 ```
+
+Aucune instrumentation à la capture : n'importe quelle vidéo existante
+(Teams, OBS, Game Bar) est exploitable — un créneau qu'aucun outil public ne
+couvre à notre connaissance (comparaison détaillée : `docs/etat-de-l-art.md`).
 
 Tout tourne en local : découpage d'images ffmpeg, transcription
 faster-whisper (aucun envoi audio externe), génération par l'assistant IA de
@@ -43,6 +50,19 @@ préconfigurés. Le premier `/video-to-rf` télécharge le modèle whisper
 - **Référence des conventions et du pipeline** (pour l'assistant comme pour
   le relecteur) : `CLAUDE.md` — les instructions Copilot
   (`.github/copilot-instructions.md`) y renvoient.
+
+## Qualité
+
+Chaque push sur `main` (et chaque PR) déclenche la CI
+(`.github/workflows/ci.yml`) : traçabilité spec ↔ suite
+(`scripts/check_specs.py`), lint Robocop (`robocop.toml`) et `robot --dryrun`
+de toutes les suites. Les mêmes commandes tournent en local :
+
+```powershell
+python scripts/check_specs.py                  # sha256 des specs + conventions
+python scripts/inventory_pages.py              # keywords/locators réutilisables
+$env:PYTHONIOENCODING='utf-8'; python -m robocop check tests resources
+```
 
 ## Exécuter les suites
 
