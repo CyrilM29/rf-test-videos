@@ -8,6 +8,23 @@ mettre à jour quand la structure ou les conventions changent.
 **Répondre en français** et rédiger les documents utilisateur en français.
 Noms de keywords, identifiants techniques et code restent en anglais.
 
+## Mémoire (trois couches qui coexistent)
+
+1. **Mémoire du projet (ce dépôt, publiable)** : `memory/` à la racine —
+   faits durables du projet, **anonymisés** (aucune donnée personnelle, aucun
+   chemin machine, aucune URL privée) ; index `memory/MEMORY.md`, règles dans
+   `memory/README.md`.
+2. **Base privée inter-projets** : `E:\QA_GenAI\agent-memory\` — profil et
+   préférences de l'utilisateur, spécificités du poste, faits transverses,
+   recherches web ; contrat dans son `PROTOCOLE.md`. Jamais publiée.
+3. **Mémoire automatique de Claude Code** (Claude seulement) — pointeurs
+   internes, sans dupliquer les deux autres couches.
+
+Lire les deux index en début de session. Fait nouveau : publiable et propre
+au projet → couche 1 ; personnel, lié au poste ou inter-projets → couche 2.
+Une fiche par fait, index mis à jour dans la même opération, jamais de
+secrets — nulle part.
+
 ## Objet
 
 Transcrire des **vidéos de tests manuels** en **suites Robot Framework**, sans

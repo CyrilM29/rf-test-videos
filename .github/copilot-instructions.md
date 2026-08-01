@@ -33,3 +33,21 @@ Workflows outillés (prompt files, à invoquer dans le chat en mode agent) :
 
 Ces prompt files sont les équivalents des skills Claude Code
 (`.claude/skills/…`) : toute évolution de workflow se reporte dans les deux.
+
+## Mémoire (trois couches qui coexistent)
+
+1. **Mémoire du projet (ce dépôt, publiable)** : `memory/` à la racine —
+   faits durables du projet, **anonymisés** (aucune donnée personnelle, aucun
+   chemin machine, aucune URL privée) ; index `memory/MEMORY.md`, règles dans
+   `memory/README.md`.
+2. **Base privée inter-projets** : `E:\QA_GenAI\agent-memory\` (ajouter le
+   dossier au workspace VS Code pour un accès natif) — profil et préférences
+   de l'utilisateur, spécificités du poste, faits transverses, recherches
+   web ; contrat dans son `PROTOCOLE.md`. Jamais publiée.
+3. **Mémoire automatique de Claude Code** (Claude seulement) — ne pas la
+   dupliquer.
+
+Lire les deux index en début de tâche. Fait nouveau : publiable et propre au
+projet → couche 1 ; personnel, lié au poste ou inter-projets → couche 2. Une
+fiche par fait, index mis à jour dans la même opération, jamais de secrets —
+nulle part.
