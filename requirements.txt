@@ -18,3 +18,5 @@ rf-mcp==0.35.0
 
 # Qualité : lint RF (config robocop.toml), aussi exécuté par la CI.
 robotframework-robocop==8.3.2
+# Qualité : tests unitaires (tests/unit), aussi exécutés par la CI.
+pytest==8.4.2

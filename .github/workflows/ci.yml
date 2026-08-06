@@ -19,12 +19,12 @@ jobs:
           python-version: "3.12"
           cache: pip
 
-      - name: Installer Robot Framework + Browser + Robocop
+      - name: Installer Robot Framework + Browser + Robocop + pytest
         # Sous-ensemble de requirements.txt : whisper, pillow et rf-mcp ne
         # servent qu'en local. --skip-browsers : le dry-run importe la
         # librairie Browser sans lancer de navigateur.
         run: |
-          pip install robotframework==7.4.2 robotframework-browser==20.0.0 robotframework-robocop==8.3.2
+          pip install robotframework==7.4.2 robotframework-browser==20.0.0 robotframework-robocop==8.3.2 pytest==8.4.2
           rfbrowser init --skip-browsers
 
       - name: Traçabilité spec ↔ suite + conventions (check_specs)
