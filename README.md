@@ -1,4 +1,4 @@
-# rf-test-videos — des vidéos de tests manuels aux suites Robot Framework
+# rf-test-videos : des vidéos de tests manuels aux suites Robot Framework
 
 Déposer une vidéo dans `videos/`, lancer `/video-to-rf`, obtenir un **plan de
 test métier** (`specs/`) et une **suite Robot Framework** validée en dry-run ;
@@ -13,10 +13,15 @@ vidéo (.mp4) → /video-to-rf → specs/<slug>.md → tests/robot/ui/… (dry-r
                             → fidélité visuelle vidéo ↔ exécution : verdicts
                               dans la spec + rapport HTML autonome
                               (results/fidelity/<slug>/report.html)
+             → /video-to-istqb → specs/istqb/<slug>.istqb.md : plan de test +
+                              cas de test ISTQB (tableau humain + bloc replay
+                              YAML rejouable par une IA, quel que soit le
+                              framework) ; suite RF, ISTQB ou les deux depuis
+                              la même vidéo
 ```
 
 Aucune instrumentation à la capture : n'importe quelle vidéo existante
-(Teams, OBS, Game Bar) est exploitable — un créneau qu'aucun outil public ne
+(Teams, OBS, Game Bar) est exploitable : un créneau qu'aucun outil public ne
 couvre à notre connaissance (comparaison détaillée : `docs/etat-de-l-art.md`).
 
 Tout tourne en local : découpage d'images ffmpeg, transcription
@@ -40,15 +45,15 @@ préconfigurés. Le premier `/video-to-rf` télécharge le modèle whisper
 
 ## Utilisation
 
-| Assistant | Transcription | Finalisation sur le SUT |
-| --- | --- | --- |
-| Claude Code | `/video-to-rf videos/x.mp4 --language fr` | `/finalize-rf x` (serveur MCP `.mcp.json`, chargé au démarrage de session) |
-| GitHub Copilot (mode agent) | `/video-to-rf videos/x.mp4 --language fr` | `/finalize-rf x` (serveur MCP `.vscode/mcp.json`, à démarrer dans la vue MCP) |
+| Assistant | Transcription | Finalisation sur le SUT | Plan ISTQB |
+| --- | --- | --- | --- |
+| Claude Code | `/video-to-rf videos/x.mp4 --language fr` | `/finalize-rf x` (serveur MCP `.mcp.json`, chargé au démarrage de session) | `/video-to-istqb x` (hors ligne ; accepte aussi la vidéo brute) |
+| GitHub Copilot (mode agent) | `/video-to-rf videos/x.mp4 --language fr` | `/finalize-rf x` (serveur MCP `.vscode/mcp.json`, à démarrer dans la vue MCP) | `/video-to-istqb x` |
 
 - **Guide utilisateur** (enregistrer une bonne vidéo, options, brancher le
   SUT, FAQ) : `docs/guide-utilisateur.md`
 - **Référence des conventions et du pipeline** (pour l'assistant comme pour
-  le relecteur) : `CLAUDE.md` — les instructions Copilot
+  le relecteur) : `CLAUDE.md`, les instructions Copilot
   (`.github/copilot-instructions.md`) y renvoient.
 
 ## Qualité
@@ -70,6 +75,6 @@ $env:PYTHONIOENCODING='utf-8'; python -m robocop check tests resources
 $env:PYTHONIOENCODING='utf-8'; robot -v "APP_PASSWORD:Secret:…" --outputdir results/x tests/robot/ui/web/x.robot
 ```
 
-(Le préfixe d'encodage est inutile dans les terminaux VS Code du projet —
+(Le préfixe d'encodage est inutile dans les terminaux VS Code du projet :
 réglé par `.vscode/settings.json`. Les secrets se passent toujours en CLI,
 jamais dans un fichier.)
