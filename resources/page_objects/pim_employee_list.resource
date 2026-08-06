@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation    Écran PIM > Employee List — créé depuis
+Documentation    Écran PIM > Employee List : créé depuis
 ...              specs/test-video-to-rf.md (vidéo [00:28 → 00:33]).
 ...              Corps implémentés avec Browser ; locators TODO.
 Resource         ../common.resource
@@ -7,8 +7,8 @@ Resource         ../common.resource
 
 *** Variables ***
 # Locators relevés en live sur le SUT via /finalize-rf (robotmcp)
-${EMPLOYEE_LIST_HEADER}          h5.oxd-table-filter-title:has-text("Employee Information")    # relevé SUT 2026-07-25 — titre du panneau de filtres PIM
-${EMPLOYEE_LIST_RECORD_COUNT}    .orangehrm-horizontal-padding span.oxd-text--span    # relevé SUT 2026-07-25 — ancrage structurel
+${EMPLOYEE_LIST_HEADER}          h5.oxd-table-filter-title:has-text("Employee Information")    # relevé SUT 2026-07-25, titre du panneau de filtres PIM
+${EMPLOYEE_LIST_RECORD_COUNT}    .orangehrm-horizontal-padding span.oxd-text--span    # relevé SUT 2026-07-25 : ancrage structurel
 ${EMPLOYEE_LIST_GRID_ROWS}       .oxd-table-body > .oxd-table-card    # relevé SUT 2026-07-25
 
 

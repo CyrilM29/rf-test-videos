@@ -1,5 +1,5 @@
 # CI qualité du dépôt : traçabilité spec ↔ suite, lint Robocop, dry-run de
-# toutes les suites. Aucun SUT n'est nécessaire — l'exécution réelle reste
+# toutes les suites. Aucun SUT n'est nécessaire : l'exécution réelle reste
 # locale (/finalize-rf) ; la CI garantit que ce qui est commité est cohérent.
 name: CI
 
@@ -29,6 +29,14 @@ jobs:
 
       - name: Traçabilité spec ↔ suite + conventions (check_specs)
         run: python scripts/check_specs.py
+
+      # Le tiret cadratin est le tic n°1 qui trahit un texte généré : la
+      # règle de rédaction est tenue mécaniquement, pas seulement énoncée.
+      - name: Aucun tiret cadratin dans la rédaction du dépôt
+        run: python scripts/check_no_em_dash.py
+
+      - name: Tests unitaires
+        run: python -m pytest tests/unit -q
 
       - name: Lint Robot Framework (Robocop)
         run: python -m robocop check tests resources

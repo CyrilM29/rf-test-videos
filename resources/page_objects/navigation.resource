@@ -1,12 +1,12 @@
 *** Settings ***
-Documentation    Menu latéral OrangeHRM (Admin, PIM, Leave, Recruitment…) —
+Documentation    Menu latéral OrangeHRM (Admin, PIM, Leave, Recruitment…) :
 ...              créé depuis specs/test-video-to-rf.md (vidéo [00:15 → 00:40]).
 ...              Corps implémentés avec Browser ; locators TODO.
 Resource         ../common.resource
 
 
 *** Variables ***
-# Gabarit avec {module} (Format String) — validé avec Admin et PIM
+# Gabarit avec {module} (Format String) : validé avec Admin et PIM
 ${SIDEBAR_MENU_ITEM_TEMPLATE}    a.oxd-main-menu-item >> text="{module}"    # relevé SUT 2026-07-25
 
 

@@ -3,12 +3,12 @@
 Balaye ``resources/page_objects/*.resource`` et liste, par écran :
 
 - les **keywords** exposés (réutilisables tels quels par une nouvelle suite) ;
-- les **locators** et leur état — ``relevé`` (déjà validé en live sur le SUT
+- les **locators** et leur état : ``relevé`` (déjà validé en live sur le SUT
   via /finalize-rf), ``TODO`` (à relever), ou ``donnée`` (variable de page qui
   n'est pas un localisateur).
 
 C'est l'outil de **capitalisation** du dépôt : avant de créer un keyword
-depuis une nouvelle vidéo, /video-to-rf consulte cet inventaire — un écran
+depuis une nouvelle vidéo, /video-to-rf consulte cet inventaire : un écran
 déjà couvert avec locators relevés se réutilise sans repasser par le SUT.
 
 Usage :
@@ -93,21 +93,21 @@ def main() -> int:
         return 0
 
     if not screens:
-        print("Aucun page object dans resources/page_objects/ — "
+        print("Aucun page object dans resources/page_objects/ : "
               "premier passage : tout sera à créer.")
         return 0
 
     n_kw = sum(len(s["keywords"]) for s in screens)
     n_ok = sum(len(s["locators_releves"]) for s in screens)
     n_todo = sum(len(s["locators_todo"]) for s in screens)
-    print(f"Inventaire page objects — {len(screens)} écran(s), "
+    print(f"Inventaire page objects : {len(screens)} écran(s), "
           f"{n_kw} keyword(s), locators : {n_ok} relevé(s), {n_todo} TODO\n")
     for s in screens:
         badge = "prêt (réutilisable sans SUT)" if s["ready"] else \
             f"{len(s['locators_todo'])} locator(s) TODO"
-        print(f"## {s['screen']} — {badge}")
+        print(f"## {s['screen']} : {badge}")
         for kw in s["keywords"]:
-            doc = f" — {kw['doc']}" if kw["doc"] else ""
+            doc = f" : {kw['doc']}" if kw["doc"] else ""
             print(f"  - {kw['name']}{doc}")
         if s["locators_todo"]:
             print(f"  TODO : {', '.join(s['locators_todo'])}")

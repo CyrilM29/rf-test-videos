@@ -15,7 +15,7 @@ Les frames sont extraites par détection de changement de scène ffmpeg
 à intervalle fixe (``--interval``). Les frames consécutives quasi identiques
 sont écartées par hash perceptuel (dHash via Pillow ; ``--dedup 0`` pour
 désactiver). L'audio est transcrit par faster-whisper sur CPU (``--model``,
-défaut ``small`` — téléchargé au premier run dans
+défaut ``small`` : téléchargé au premier run dans
 ``%USERPROFILE%/.cache/huggingface``). Le ``storyboard.md`` aligne chaque
 frame avec les segments de voix off prononcés jusqu'à la frame suivante :
 c'est le document de lecture principal de la skill.
@@ -190,7 +190,7 @@ def extract_frames(video: Path, frames_dir: Path, duration: float, scene: float,
 
 def write_transcript_stub(video: Path, out_dir: Path, reason: str) -> dict:
     (out_dir / "audio_transcript.md").write_text(
-        f"# Transcription audio — {video.name}\n\n*{reason}*\n",
+        f"# Transcription audio : {video.name}\n\n*{reason}*\n",
         encoding="utf-8")
     return {"audio": False, "audio_language": None,
             "audio_segments": 0, "whisper_model": None, "segments": []}
@@ -224,7 +224,7 @@ def transcribe(video: Path, out_dir: Path, model_name: str,
         die("faster-whisper n'est pas installé : pip install faster-whisper")
         raise
 
-    print(f"[..] transcription ({model_name}, CPU int8) — "
+    print(f"[..] transcription ({model_name}, CPU int8) : "
           "le premier run télécharge le modèle…")
     model = WhisperModel(model_name, device="cpu", compute_type="int8")
     segments_iter, info = model.transcribe(str(wav), language=language,
@@ -242,7 +242,7 @@ def transcribe(video: Path, out_dir: Path, model_name: str,
 
     body = "\n".join(lines) if lines else "*Aucune parole détectée.*"
     (out_dir / "audio_transcript.md").write_text(
-        f"# Transcription audio — {video.name}\n\n"
+        f"# Transcription audio : {video.name}\n\n"
         f"- **Modèle** : {model_name} (faster-whisper, CPU int8)\n"
         f"- **Langue détectée** : {info.language} "
         f"(probabilité {info.language_probability:.2f})\n\n"
@@ -255,10 +255,10 @@ def transcribe(video: Path, out_dir: Path, model_name: str,
 
 def write_storyboard(out_dir: Path, video: Path, frames: list[dict],
                      segments: list[dict], duration: float) -> Path:
-    """Fusionne frames et voix off en un déroulé chronologique unique —
+    """Fusionne frames et voix off en un déroulé chronologique unique :
     le document de lecture principal de /video-to-rf."""
     lines = [
-        f"# Storyboard — {video.name}",
+        f"# Storyboard : {video.name}",
         "",
         "Déroulé chronologique généré par `prepare_video.py` : une section par",
         "frame (changement d'écran), suivie de la voix off prononcée entre",
@@ -317,7 +317,7 @@ def process_video(video: Path, args: argparse.Namespace) -> str:
         audio_info = {k: old_meta.get(k) for k in AUDIO_KEYS}
         audio_info["segments"] = (old_meta.get("segments")
                                   or parse_transcript_md(transcript))
-        print(f"[OK] transcription existante conservée ({transcript}) — "
+        print(f"[OK] transcription existante conservée ({transcript}) : "
               "--force pour la refaire")
     elif not has_audio_stream(video):
         audio_info = write_transcript_stub(
@@ -378,7 +378,7 @@ def main() -> None:
                     help="intervalle (s) du repli à échantillonnage fixe (défaut 5.0)")
     ap.add_argument("--dedup", type=int, default=2,
                     help="distance dHash max pour écarter une frame quasi "
-                         "identique à la précédente ; 0 désactive (défaut 2 — "
+                         "identique à la précédente ; 0 désactive (défaut 2 : "
                          "prudent : une saisie clavier change peu de pixels)")
     ap.add_argument("--model", default="small",
                     help="modèle faster-whisper : tiny/base/small/medium/large-v3 (défaut small)")
@@ -404,7 +404,7 @@ def main() -> None:
         videos = [source]
     else:
         die(f"vidéo ou dossier introuvable : {source}")
-        raise SystemExit  # inatteignable — pour l'analyse statique
+        raise SystemExit  # inatteignable : pour l'analyse statique
 
     slugs = []
     for i, video in enumerate(videos, start=1):
@@ -414,7 +414,7 @@ def main() -> None:
         if len(videos) > 1:
             print()
     if len(videos) > 1:
-        print(f"[OK] batch terminé : {len(slugs)} dossier(s) work/ prêts — "
+        print(f"[OK] batch terminé : {len(slugs)} dossier(s) work/ prêts, "
               + ", ".join(slugs))
 
 

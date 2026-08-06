@@ -1,26 +1,26 @@
 # Positionnement et état de l'art
 
 Où se situe ce projet par rapport à ce qui existe (recherche académique,
-outils commerciaux, open source) — et ce qui le différencie. Document de
+outils commerciaux, open source), et ce qui le différencie. Document de
 référence pour présenter le projet ; mis à jour 2026-07-27.
 
 ## Le créneau
 
-Ce dépôt transforme une **vidéo brute** de test manuel (MP4 quelconque —
-Teams, OBS, Game Bar — avec ou sans voix off) en **suite Robot Framework**
+Ce dépôt transforme une **vidéo brute** de test manuel (MP4 quelconque :
+Teams, OBS, Game Bar : avec ou sans voix off) en **suite Robot Framework**
 maintenable : plan de test métier (`specs/`), suite sans localisateurs,
 page objects, puis relevé des localisateurs en live sur le SUT et preuve de
 rejouabilité + fidélité visuelle. **Aucune instrumentation à la capture,
 aucun accès au SUT pendant la génération.**
 
 À notre connaissance, aucune solution publique ne couvre exactement ce
-créneau — les approches existantes se répartissent en trois familles.
+créneau : les approches existantes se répartissent en trois familles.
 
 ## 1. Recherche académique (vidéo → scénario rejouable)
 
 La famille la plus proche : partir d'une vidéo non instrumentée.
 
-- **V2S — Video2Scenario** (ICSE 2020/2021, lab SEMERU) : traduit des vidéos
+- **V2S, Video2Scenario** (ICSE 2020/2021, lab SEMERU) : traduit des vidéos
   d'usage d'applications **Android** en scénarios rejouables, par vision par
   ordinateur (détection des touches → classification tap/long-tap/swipe →
   script). ~89 % des actions reproduites sur 175 vidéos.
@@ -40,7 +40,7 @@ instrumenté** (extension navigateur qui capture les événements DOM) ou du
 texte libre en tests, avec self-healing. La tendance 2025-2026 est aux agents
 qui pilotent un navigateur depuis un plan de test en langage naturel.
 
-Limites : il faut instrumenter la session au moment de la capture — une
+Limites : il faut instrumenter la session au moment de la capture, une
 vidéo existante est inexploitable ; sorties propriétaires (pas de Robot
 Framework) ; ciblent le web (pas SAP GUI/desktop).
 
@@ -66,10 +66,10 @@ vidéo ; pas de séparation spec / suite / page objects.
    comparaison visuelle frames vidéo ↔ captures d'exécution, consignée dans
    la spec.
 5. **Multi-canaux** : web aujourd'hui (Browser/Playwright), hybridation
-   prévue par convention (SAP GUI, Fiori, desktop, mobile) — hors de portée
+   prévue par convention (SAP GUI, Fiori, desktop, mobile) : hors de portée
    des outils web-only.
 6. **Capitalisation** : les page objects s'enrichissent vidéo après vidéo
-   (`scripts/inventory_pages.py`) — le coût marginal d'une nouvelle vidéo
+   (`scripts/inventory_pages.py`) : le coût marginal d'une nouvelle vidéo
    sur un SUT déjà couvert décroît.
 7. **Local et bi-assistant** : transcription et découpage en local (aucun
    envoi audio externe), pilotable par Claude Code comme par GitHub Copilot.

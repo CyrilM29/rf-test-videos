@@ -3,9 +3,9 @@ mode: agent
 description: Finalise une suite générée par /video-to-rf en relevant les locators TODO en direct sur le SUT via le serveur MCP robotmcp, puis prouve la rejouabilité par deux exécutions réelles vertes. Argument = slug ou chemin de la suite.
 ---
 
-# /finalize-rf — relevé des locators sur le SUT et tests rejouables
+# /finalize-rf : relevé des locators sur le SUT et tests rejouables
 
-Conventions de `CLAUDE.md` en vigueur — notamment : locators UNIQUEMENT dans
+Conventions de `CLAUDE.md` en vigueur, notamment : locators UNIQUEMENT dans
 `resources/page_objects/` ; jamais de `Sleep` ; spec = source de vérité ;
 aucun secret écrit dans un fichier.
 
@@ -16,7 +16,7 @@ aucun secret écrit dans un fichier.
 - Inventorier les locators `${EMPTY}    # TODO` (recherche dans les page
   objects). Aucun → passer à l'étape 5.
 - **Vérifier que les outils MCP `robotmcp` sont disponibles** (serveur
-  déclaré dans `.vscode/mcp.json` — le démarrer depuis la vue MCP de VS Code
+  déclaré dans `.vscode/mcp.json` : le démarrer depuis la vue MCP de VS Code
   si besoin). Indisponibles → s'arrêter et demander de le démarrer.
 - Identifiants : lire la spec ; secret non public → le demander dans le chat,
   ne JAMAIS l'écrire dans un fichier.
@@ -47,7 +47,7 @@ aucun secret écrit dans un fichier.
   Rafraîchir le sha256 de la spec dans l'en-tête de la suite
   (`python scripts/check_specs.py` vérifie la concordance).
 
-## 5. Valider (obligatoire — rejouabilité prouvée)
+## 5. Valider (obligatoire : rejouabilité prouvée)
 
 - Dry-run, puis exécution réelle complète (secrets en CLI :
   `robot -v APP_PASSWORD:<secret> …`). Échec → diagnostiquer via
@@ -62,14 +62,14 @@ aucun secret écrit dans un fichier.
 - Par scénario de la spec : rejouer en session live jusqu'à l'écran de fin,
   capture (`Take Screenshot`), comparaison visuelle avec la frame du
   storyboard à l'horodatage de fin (l'outil `visual_check` de robotmcp peut
-  aider). Verdict `conforme` | `écart` — les différences de données sont
+  aider). Verdict `conforme` | `écart` : les différences de données sont
   attendues, seuls comptent structure et flux.
 - Rapport HTML : écrire `results/fidelity/<slug>/manifest.json` (schéma en
   tête de `scripts/fidelity_report.py`) puis
   `python scripts/fidelity_report.py <slug>` →
   `results/fidelity/<slug>/report.html` (autonome, images embarquées).
 - Bilan aussi dans la section « Fidélité visuelle » de la spec (date +
-  verdicts — artefact durable) ; écart de flux → aussi dans « Écarts… » +
+  verdicts : artefact durable) ; écart de flux → aussi dans « Écarts… » +
   rafraîchir le sha256 (étape 4).
 
 ## 7. Rapport final

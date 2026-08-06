@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation    Écran de connexion OrangeHRM — créé depuis
+Documentation    Écran de connexion OrangeHRM : créé depuis
 ...              specs/test-video-to-rf.md (vidéo [00:00 → 00:15]).
 ...              Corps implémentés avec Browser ; locators TODO à relever
 ...              sur le SUT (non observables en vidéo).
@@ -50,7 +50,7 @@ Ensure Logged In
         ${url}=    Get Url
     EXCEPT
         # Aucune page active (la librairie ferme les pages à la fin de chaque
-        # test — auto-close TEST) : on rouvre et on se connecte.
+        # test, auto-close TEST) : on rouvre et on se connecte.
         Open Login Page
         Log In With    ${user}    ${password}
         RETURN

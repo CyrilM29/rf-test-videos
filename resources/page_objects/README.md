@@ -1,4 +1,4 @@
-# page_objects/ — un fichier `.resource` par écran
+# page_objects/ : un fichier `.resource` par écran
 
 Seul emplacement du dépôt où vivent les **localisateurs** (convention 1) :
 variables de locators + keywords propres à un écran. Les suites de
@@ -16,7 +16,7 @@ l'action observée est trop incertaine pour être implémentée.
 
 Hybridation multi-canaux : la librairie du canal principal vit dans
 `common.resource` ; celle d'un canal secondaire (desktop, SAP…) s'importe en
-`Library` **ici**, dans les seuls page objects de ce canal — jamais dans les
+`Library` **ici**, dans les seuls page objects de ce canal, jamais dans les
 suites.
 
 Gabarit (noms de keywords **en anglais**, convention SAPFX ; documentation en
@@ -24,7 +24,7 @@ français ; exemple avec Browser) :
 
 ```robotframework
 *** Settings ***
-Documentation    Écran de connexion — créé depuis specs/demo-connexion.md.
+Documentation    Écran de connexion : créé depuis specs/demo-connexion.md.
 Resource         ../common.resource
 
 *** Variables ***

@@ -5,9 +5,9 @@ Vérifie, pour chaque suite de ``tests/robot/`` :
 1. la présence d'une référence ``Spec: specs/<slug>.md (sha256:<12 hex>, <date>)``
    dans l'en-tête ``Documentation`` (convention 4) ;
 2. que la spec référencée existe et que l'empreinte sha256 correspond au
-   fichier actuel — une divergence signifie que la spec a changé sans
+   fichier actuel : une divergence signifie que la spec a changé sans
    régénération de la suite ;
-3. qu'aucune ``Library`` n'est importée directement (convention 1 — les
+3. qu'aucune ``Library`` n'est importée directement (convention 1 : les
    suites ne passent que par des ``Resource``) ;
 4. qu'aucun localisateur (``id=``, ``css=``, ``xpath=``, ``//``…) ne traîne
    dans la suite (convention 1) ;
@@ -55,23 +55,23 @@ def check_suite(suite: Path, errors: list[str]) -> None:
     else:
         spec = PROJECT_ROOT / m.group(1)
         if not spec.is_file():
-            errors.append(f"{rel} : spec référencée introuvable — {m.group(1)}")
+            errors.append(f"{rel} : spec référencée introuvable, {m.group(1)}")
         else:
             actual = spec_sha12(spec)
             if actual != m.group(2):
                 errors.append(
-                    f"{rel} : sha256 de {m.group(1)} divergent — suite "
+                    f"{rel} : sha256 de {m.group(1)} divergent, suite "
                     f"{m.group(2)}, spec actuelle {actual}. La spec a changé : "
                     "régénérer la suite (ou rafraîchir l'empreinte si la "
                     "régénération vient d'être faite).")
 
     if LIBRARY_RE.search(text):
         errors.append(f"{rel} : import `Library` direct dans une suite "
-                      "(convention 1 — passer par common.resource ou un "
+                      "(convention 1 : passer par common.resource ou un "
                       "page object)")
     if LOCATOR_RE.search(text):
         errors.append(f"{rel} : localisateur apparent (id=/css=/xpath=///) "
-                      "dans une suite (convention 1 — les locators vivent "
+                      "dans une suite (convention 1 : les locators vivent "
                       "dans resources/page_objects/)")
 
 
@@ -80,7 +80,7 @@ def check_no_sleep(path: Path, errors: list[str]) -> None:
     for n, line in enumerate(path.read_text(encoding="utf-8").splitlines(),
                              start=1):
         if SLEEP_LINE_RE.match(line):
-            errors.append(f"{rel}:{n} : `Sleep` interdit (convention 2 — "
+            errors.append(f"{rel}:{n} : `Sleep` interdit (convention 2, "
                           "attente sur condition)")
 
 
@@ -91,7 +91,7 @@ def main() -> int:
     suites = sorted(TESTS_DIR.rglob("*.robot"))
     resources = sorted(RESOURCES_DIR.rglob("*.resource"))
     if not suites:
-        print("[OK] aucune suite dans tests/robot/ — rien à contrôler")
+        print("[OK] aucune suite dans tests/robot/ : rien à contrôler")
         return 0
 
     errors: list[str] = []
@@ -105,7 +105,7 @@ def main() -> int:
         for e in errors:
             print(f"  - {e}")
         return 1
-    print(f"[OK] {len(suites)} suite(s), {len(resources)} resource(s) — "
+    print(f"[OK] {len(suites)} suite(s), {len(resources)} resource(s) : "
           "références de spec exactes, conventions 1/2/4 respectées")
     return 0
 

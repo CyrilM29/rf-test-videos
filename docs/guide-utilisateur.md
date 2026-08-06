@@ -1,4 +1,4 @@
-# Guide utilisateur — de la vidéo au test Robot Framework
+# Guide utilisateur : de la vidéo au test Robot Framework
 
 Ce projet transforme une **vidéo de test manuel** (capture d'écran, avec ou
 sans voix off) en **suite Robot Framework** prête à être branchée sur le
@@ -13,7 +13,7 @@ vidéo (.mp4)  →  /video-to-rf  →  plan de test (specs/)  →  suite (tests/
 
 Ce guide s'adresse à l'utilisateur du pipeline. Le fonctionnement interne et
 les conventions de génération sont documentés dans `CLAUDE.md` (lu par
-l'assistant) — inutile de le connaître pour utiliser l'outil.
+l'assistant) : inutile de le connaître pour utiliser l'outil.
 
 ---
 
@@ -27,16 +27,16 @@ powershell -ExecutionPolicy Bypass -File scripts/setup.ps1
 
 Elle crée l'environnement `.venv`, installe les dépendances
 (`requirements.txt`), télécharge les navigateurs Playwright et vérifie
-ffmpeg (`winget install ffmpeg` s'il manque — seul prérequis hors pip, avec
+ffmpeg (`winget install ffmpeg` s'il manque : seul prérequis hors pip, avec
 Python 3.10+). Ouvrir ensuite le dossier dans VS Code : les extensions
 recommandées (Python, RobotCode, Copilot, Claude Code) sont proposées
 automatiquement.
 
 Côté assistant, deux options équivalentes :
 
-- **Claude Code** (extension VS Code) — les commandes de ce guide
+- **Claude Code** (extension VS Code) : les commandes de ce guide
   fonctionnent telles quelles ;
-- **GitHub Copilot** en mode **agent** — mêmes commandes `/video-to-rf` et
+- **GitHub Copilot** en mode **agent** : mêmes commandes `/video-to-rf` et
   `/finalize-rf` (prompt files du dépôt), avec un **modèle à vision**
   (lecture des images de la vidéo) ; pour `/finalize-rf`, démarrer le
   serveur `robotmcp` dans la vue MCP de VS Code (déclaré dans
@@ -53,7 +53,7 @@ aussi. Formats acceptés : tout ce que ffmpeg lit (`.mp4`, `.webm`, `.mkv`…).
 
 Ce qui fait la qualité de la transcription :
 
-- **1080p minimum**, fenêtre nette, pas de zoom flou — le texte à l'écran
+- **1080p minimum**, fenêtre nette, pas de zoom flou : le texte à l'écran
   doit être lisible sur une image fixe ;
 - **une action à la fois**, en laissant l'écran se stabiliser une seconde
   après chaque action : chaque changement d'écran devient une image analysée ;
@@ -68,7 +68,7 @@ par git : les artefacts durables sont la spec et la suite générées).
 
 ## 3. Lancer la transcription
 
-Dans VS Code — panneau Claude Code, ou chat Copilot en mode agent (la
+Dans VS Code : panneau Claude Code, ou chat Copilot en mode agent (la
 commande est identique) :
 
 ```text
@@ -83,11 +83,11 @@ Options utiles (transmises au script de préparation) :
 | `--model base` \| `small` \| `medium` | précision/poids du modèle de transcription | `small` |
 | `--scene 0.2` | seuil de détection des changements d'écran (plus haut = moins d'images) | `0.10` |
 | `--dedup 0` | désactive l'élimination des images quasi identiques (utile si des étapes ne diffèrent que par une saisie clavier) | `2` |
-| `--no-audio` | ignore la piste audio | — |
-| `--force` | refait la transcription audio d'une vidéo déjà préparée | — |
+| `--no-audio` | ignore la piste audio | : |
+| `--force` | refait la transcription audio d'une vidéo déjà préparée | : |
 
 Pour préparer un **lot de vidéos** d'un coup (le script seul, hors skill) :
-`python scripts/prepare_video.py videos/` — puis lancer `/video-to-rf` sur
+`python scripts/prepare_video.py videos/`, puis lancer `/video-to-rf` sur
 chaque vidéo.
 
 La skill enchaîne alors :
@@ -99,11 +99,11 @@ La skill enchaîne alors :
 3. **checkpoint librairies** : la skill identifie les canaux en jeu dans la
    vidéo (web, desktop, SAP, mobile…) et vérifie qu'une librairie de
    pilotage couvre chacun. Si ce n'est pas le cas, **elle vous pose la
-   question** avant de générer quoi que ce soit — y compris la combinaison
+   question** avant de générer quoi que ce soit : y compris la combinaison
    de plusieurs librairies quand la vidéo mêle plusieurs canaux ;
 4. écriture du **plan de test métier** `specs/<nom>.md` (scénarios, données
    observées, points de vigilance, horodatages vidéo) ;
-5. génération de la **suite** `tests/robot/ui/<domaine>/<nom>.robot` — un
+5. génération de la **suite** `tests/robot/ui/<domaine>/<nom>.robot` : un
    test par scénario, aucun localisateur dans les tests ;
 6. création des **keywords manquants** dans
    `resources/page_objects/<écran>.resource` : corps déjà implémentés avec
@@ -126,7 +126,7 @@ work/demo-connexion/                           ← images/transcription (jetable
 
 **Relisez d'abord la spec** : c'est le contrat. Si un scénario est mal
 découpé ou qu'une intention a été mal comprise, corrigez la spec (ou refaites
-une vidéo plus claire) et demandez une régénération — ne retouchez pas la
+une vidéo plus claire) et demandez une régénération : ne retouchez pas la
 suite à la main.
 
 ## 5. Après la génération : brancher le système sous test
@@ -134,7 +134,7 @@ suite à la main.
 Une vidéo ne montre jamais les identifiants techniques des éléments (ids,
 sélecteurs CSS…). Les keywords générés naissent donc avec des localisateurs
 « à compléter » et la suite **échoue volontairement** en exécution réelle
-tant que ce travail n'est pas fait — c'est le garde-fou qui empêche un test
+tant que ce travail n'est pas fait : c'est le garde-fou qui empêche un test
 vert par accident.
 
 Le choix de la librairie de pilotage se fait **pendant la génération**
@@ -149,13 +149,13 @@ l'application et remplacer le `${EMPTY}` de la variable dans
 
 **Ce relevé est lui aussi assisté** : la skill `/finalize-rf` pilote
 l'application réelle depuis VS Code (serveur MCP `robotmcp`, déclaré dans le
-projet) — elle navigue écran par écran, inspecte le DOM, choisit des
+projet) : elle navigue écran par écran, inspecte le DOM, choisit des
 localisateurs robustes, les **valide en direct** avant de les écrire, prouve
 la rejouabilité par deux exécutions réelles vertes, puis compare les captures
 de l'exécution aux images de la vidéo (**fidélité visuelle**) : le verdict
 par scénario est consigné dans la spec et un **rapport HTML** comparant
 chaque image vidéo à la capture d'exécution est généré dans
-`results/fidelity/<nom>/report.html` — autonome (images embarquées), il
+`results/fidelity/<nom>/report.html` : autonome (images embarquées), il
 s'ouvre dans n'importe quel navigateur et se partage tel quel :
 
 ```text
@@ -164,7 +164,7 @@ s'ouvre dans n'importe quel navigateur et se partage tel quel :
 
 Le SUT doit être accessible depuis le poste. Selon l'assistant : avec
 Claude Code, le serveur `robotmcp` (déclaré dans `.mcp.json`) se charge au
-démarrage de session — recharger la fenêtre après une première
+démarrage de session : recharger la fenêtre après une première
 installation ; avec Copilot, le démarrer dans la vue MCP de VS Code
 (déclaré dans `.vscode/mcp.json`). Un relevé manuel (inspecteur du
 navigateur, recorder…) reste bien sûr possible.
@@ -209,14 +209,14 @@ commande.
 Trois garde-fous tournent en continu (localement et dans la CI GitHub
 Actions à chaque push) :
 
-- `python scripts/check_specs.py` — vérifie que chaque suite référence sa
+- `python scripts/check_specs.py` : vérifie que chaque suite référence sa
   spec avec la bonne empreinte sha256 (une spec modifiée sans régénération
   est détectée) et que les conventions structurantes sont respectées ;
-- `python -m robocop check tests resources` — lint Robot Framework (préfixer
+- `python -m robocop check tests resources` : lint Robot Framework (préfixer
   par `$env:PYTHONIOENCODING='utf-8';` hors des terminaux du projet) ;
 - `robot --dryrun` sur toutes les suites.
 
-**Capitalisation** : les écrans déjà couverts se réutilisent —
+**Capitalisation** : les écrans déjà couverts se réutilisent,
 `python scripts/inventory_pages.py` liste les keywords existants et l'état
 de leurs localisateurs (« prêt » = déjà relevés sur le SUT). Plus vous
 traitez de vidéos sur la même application, moins chaque nouvelle vidéo

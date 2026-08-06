@@ -5,16 +5,16 @@ faster-whisper==1.2.1
 # Dédoublonnage perceptuel des frames (dHash) dans prepare_video.py.
 pillow==12.0.0
 
-# Pilotage du SUT — canal web (choisi le 2026-07-25, checkpoint /video-to-rf).
+# Pilotage du SUT : canal web (choisi le 2026-07-25, checkpoint /video-to-rf).
 # Après install : `rfbrowser init` (télécharge les navigateurs Playwright).
 robotframework-browser==20.0.0
-# Autres canaux (hybridation) — décommenter si une vidéo en fait apparaître :
+# Autres canaux (hybridation), décommenter si une vidéo en fait apparaître :
 # robotframework-seleniumlibrary  # web historique (webdriver)
-# ffmpeg est requis dans le PATH (extraction frames/audio) — installé hors pip.
+# ffmpeg est requis dans le PATH (extraction frames/audio) : installé hors pip.
 
-# Outillage assistant — serveur MCP d'exécution RF live (skill /finalize-rf,
+# Outillage assistant : serveur MCP d'exécution RF live (skill /finalize-rf,
 # déclaré dans .mcp.json) : relevé des locators sur le SUT.
 rf-mcp==0.35.0
 
-# Qualité — lint RF (config robocop.toml), aussi exécuté par la CI.
+# Qualité : lint RF (config robocop.toml), aussi exécuté par la CI.
 robotframework-robocop==8.3.2

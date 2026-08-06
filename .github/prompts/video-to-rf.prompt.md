@@ -3,13 +3,13 @@ mode: agent
 description: Transcrit une vidéo de test manuel en plan de test (specs/) puis en suite Robot Framework validée en dry-run. Argument = chemin de la vidéo (+ options prepare_video.py).
 ---
 
-# /video-to-rf — vidéo → spec → suite Robot Framework
+# /video-to-rf : vidéo → spec → suite Robot Framework
 
 Suivre TOUTES les étapes, dans l'ordre. Les conventions de `CLAUDE.md`
 s'appliquent en permanence (1 : zéro localisateur dans les tests ; 2 : zéro
 attente fixe ; 3 : assertions locale-indépendantes ; 4 : spec = source de
 vérité ; 5 : keyword manquant explicite ; 6 : `work/` et `results/`
-jetables). **Un modèle avec vision est requis** (lecture de frames JPEG) —
+jetables). **Un modèle avec vision est requis** (lecture de frames JPEG) :
 sinon s'arrêter et le dire.
 
 ## 1. Préparer
@@ -29,11 +29,11 @@ sinon s'arrêter et le dire.
   silence (le script a déjà échantillonné et écarté les quasi-doublons).
 - La voix off donne l'intention, la frame donne l'observé ; en cas de
   contradiction, l'observé gagne et l'écart est noté. Ce qui est flou est
-  noté comme tel — jamais inventé.
+  noté comme tel, jamais inventé.
 
 ## 3. Checkpoint librairies (AVANT toute génération)
 
-- Déduire les canaux en action (web, desktop, SAP, mobile, API… — plusieurs
+- Déduire les canaux en action (web, desktop, SAP, mobile, API… : plusieurs
   possibles) et inventorier les `Library` déjà branchées dans
   `resources/**/*.resource`.
 - Canal non couvert → **s'arrêter et demander dans le chat** quelle(s)
@@ -85,4 +85,4 @@ sinon s'arrêter et le dire.
 Scénarios produits ; librairie(s) retenue(s) ; keywords réutilisés vs créés ;
 locators TODO à relever (suite : `/finalize-rf <slug>`) ; chemins spec +
 suite + résultat du dry-run. Rappeler que l'exécution réelle échoue tant que
-les TODO ne sont pas relevés — c'est voulu.
+les TODO ne sont pas relevés : c'est voulu.

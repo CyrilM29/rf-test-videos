@@ -40,7 +40,7 @@ Write-Host '[..] Navigateurs Playwright (rfbrowser init)'
 if (Get-Command ffmpeg -ErrorAction SilentlyContinue) {
     Write-Host '[OK] ffmpeg présent dans le PATH'
 } else {
-    Write-Warning 'ffmpeg introuvable — installer : winget install ffmpeg (puis rouvrir le terminal)'
+    Write-Warning 'ffmpeg introuvable, installer : winget install ffmpeg (puis rouvrir le terminal)'
 }
 
 Write-Host ''

@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation    Tableau de bord OrangeHRM — créé depuis
+Documentation    Tableau de bord OrangeHRM : créé depuis
 ...              specs/test-video-to-rf.md (vidéo [00:10 → 00:20]).
 ...              Corps implémentés avec Browser ; locators TODO.
 Resource         ../common.resource

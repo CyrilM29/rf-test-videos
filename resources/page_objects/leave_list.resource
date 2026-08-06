@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation    Écran Leave > Leave List — créé depuis
+Documentation    Écran Leave > Leave List : créé depuis
 ...              specs/test-video-to-rf.md (vidéo [00:33 → 00:38]).
 ...              Corps implémentés avec Browser ; locators TODO.
 Resource         ../common.resource
@@ -8,10 +8,10 @@ Resource         ../common.resource
 *** Variables ***
 # Locators relevés en live sur le SUT via /finalize-rf (robotmcp)
 ${LEAVE_LIST_HEADER}             h5.oxd-table-filter-title:has-text("Leave List")    # relevé SUT 2026-07-25
-${LEAVE_STATUS_FILTER}           .oxd-grid-item:has(label:has-text("Show Leave with Status")) .oxd-select-text    # relevé SUT 2026-07-25 — composant custom ancré sur son label
-${LEAVE_STATUS_OPTION_TEMPLATE}    .oxd-select-dropdown [role="option"] >> text="{status}"    # relevé SUT 2026-07-25 — validé avec Pending Approval et Rejected
+${LEAVE_STATUS_FILTER}           .oxd-grid-item:has(label:has-text("Show Leave with Status")) .oxd-select-text    # relevé SUT 2026-07-25, composant custom ancré sur son label
+${LEAVE_STATUS_OPTION_TEMPLATE}    .oxd-select-dropdown [role="option"] >> text="{status}"    # relevé SUT 2026-07-25 : validé avec Pending Approval et Rejected
 ${LEAVE_SEARCH_BUTTON}           button[type="submit"]:has-text("Search")    # relevé SUT 2026-07-25
-${LEAVE_RESULT_AREA}             .orangehrm-container    # relevé SUT 2026-07-25 — porte la grille OU l'état vide
+${LEAVE_RESULT_AREA}             .orangehrm-container    # relevé SUT 2026-07-25 : porte la grille OU l'état vide
 
 
 *** Keywords ***
@@ -39,7 +39,7 @@ Search Leaves With Status
 Leave Search Result Should Be Displayed
     [Documentation]    Vérifie qu'un état résultat est affiché après recherche :
     ...                grille de congés OU état vide explicite (en vidéo :
-    ...                résultat vide) — le locator couvre les deux états.
+    ...                résultat vide) : le locator couvre les deux états.
     ...                Attente sur condition, jamais de Sleep.
     ...                Source : specs/test-video-to-rf.md, vidéo [00:35 → 00:38].
     ...                TODO : relever le locator sur le SUT.

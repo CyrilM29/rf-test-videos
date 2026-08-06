@@ -2,7 +2,7 @@
 work/
 results/
 
-# Vidéos sources : lourdes et jetables — la spec et la suite générée sont
+# Vidéos sources : lourdes et jetables, la spec et la suite générée sont
 # les artefacts durables.
 videos/*
 !videos/README.md

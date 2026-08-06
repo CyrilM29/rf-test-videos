@@ -1,9 +1,9 @@
-# Configuration Robocop (lint Robot Framework) — utilisée en local et par la
+# Configuration Robocop (lint Robot Framework) : utilisée en local et par la
 # CI (.github/workflows/ci.yml). Les écarts acceptés découlent des conventions
 # du dépôt (CLAUDE.md) :
 #
 # - todo-in-comment (COM01) : le marqueur TODO est la convention 5 (locator à
-#   relever sur le SUT) — c'est un état voulu, pas un oubli.
+#   relever sur le SUT) : c'est un état voulu, pas un oubli.
 # - line-too-long porté à 180 : un locator et son commentaire « # relevé SUT
 #   <date> » restent sur UNE ligne (lisibilité des page objects).
 # - inline-if-can-be-used (MISC09) : IF multi-lignes accepté (lisibilité).

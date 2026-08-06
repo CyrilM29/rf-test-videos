@@ -1,12 +1,12 @@
 *** Settings ***
 Documentation    Keywords transverses du projet : setup/teardown génériques et
 ...              helpers indépendants de l'écran. Les keywords liés à UN écran
-...              vivent dans page_objects/<écran>.resource — et les
+...              vivent dans page_objects/<écran>.resource, et les
 ...              localisateurs n'ont leur place QUE là-bas (convention 1).
 ...
 ...              Librairie de pilotage du SUT : Browser (Playwright), choisie
 ...              le 2026-07-25. Les suites générées n'importent jamais une
-...              Library directement — elles passent par ce fichier.
+...              Library directement : elles passent par ce fichier.
 Library          String
 Library          Browser
 
@@ -19,7 +19,7 @@ Fail Missing Locator
     ...                échoue en exécution réelle avec un message qui pointe
     ...                la spec d'origine.
     [Arguments]    ${spec}
-    Fail    msg=Localisateurs à relever sur le SUT — voir ${spec}
+    Fail    msg=Localisateurs à relever sur le SUT : voir ${spec}
 
 Require Locator
     [Documentation]    Garde-fou d'un keyword de page object dont le corps est
@@ -30,7 +30,7 @@ Require Locator
     ...                message qui pointe la spec d'origine.
     [Arguments]    ${locator}    ${spec}
     IF    $locator == ''
-        Fail    msg=Localisateur à relever sur le SUT — voir ${spec}
+        Fail    msg=Localisateur à relever sur le SUT : voir ${spec}
     END
 
 Get Integer From Label

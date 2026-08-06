@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation    Écran Admin > User Management > System Users — créé depuis
+Documentation    Écran Admin > User Management > System Users : créé depuis
 ...              specs/test-video-to-rf.md (vidéo [00:15 → 00:28]).
 ...              Corps implémentés avec Browser ; locators TODO.
 Resource         ../common.resource
@@ -8,7 +8,7 @@ Resource         ../common.resource
 *** Variables ***
 # Locators relevés en live sur le SUT via /finalize-rf (robotmcp)
 ${SYSTEM_USERS_HEADER}          h5.oxd-table-filter-title:has-text("System Users")    # relevé SUT 2026-07-25
-${SYSTEM_USERS_RECORD_COUNT}    .orangehrm-horizontal-padding span.oxd-text--span    # relevé SUT 2026-07-25 — libellé « (n) Records Found », ancrage structurel
+${SYSTEM_USERS_RECORD_COUNT}    .orangehrm-horizontal-padding span.oxd-text--span    # relevé SUT 2026-07-25 : libellé « (n) Records Found », ancrage structurel
 ${SYSTEM_USERS_GRID_ROWS}       .oxd-table-body > .oxd-table-card    # relevé SUT 2026-07-25
 
 

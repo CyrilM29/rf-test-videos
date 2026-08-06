@@ -24,7 +24,7 @@ visuelle ») dans ``results/fidelity/<slug>/manifest.json`` :
       ]
     }
 
-Sortie : ``results/fidelity/<slug>/report.html`` — **autonome** : les frames
+Sortie : ``results/fidelity/<slug>/report.html``, **autonome** : les frames
 vidéo et les captures d'exécution sont embarquées en base64, le rapport reste
 lisible et partageable après purge de ``work/`` et ``results/`` (chemins en
 sont de simples références). Verdicts côte à côte, bilan en tête.
@@ -122,7 +122,7 @@ def render(manifest: dict) -> str:
     all_ok = n_ok == total and total > 0
     bilan_cls = "ok" if all_ok else "ko"
     bilan_txt = (f"{n_ok}/{total} scénarios conformes"
-                 + ("" if all_ok else " — écarts à traiter (voir la spec)"))
+                 + ("" if all_ok else " : écarts à traiter (voir la spec)"))
 
     meta_lines = []
     for label, key in (("Vidéo", "video"), ("Spec", "spec"),
@@ -173,19 +173,19 @@ def render(manifest: dict) -> str:
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Fidélité visuelle — {html.escape(slug)}</title>
+<title>Fidélité visuelle : {html.escape(slug)}</title>
 <style>{CSS}</style>
 </head>
 <body>
 <header>
-  <h1>Fidélité visuelle — {titre} <small>({html.escape(slug)}, {date})</small></h1>
+  <h1>Fidélité visuelle : {titre} <small>({html.escape(slug)}, {date})</small></h1>
   <div class="meta">{"<br>".join(meta_lines)}</div>
   <div class="bilan {bilan_cls}">{bilan_txt}</div>
 </header>
 <main>
 {"".join(blocks)}
 </main>
-<footer>Rapport généré par scripts/fidelity_report.py — les différences de
+<footer>Rapport généré par scripts/fidelity_report.py : les différences de
 données (compteurs, dates, contenus de listes) sont attendues&nbsp;: seuls les
 écarts de structure ou de flux comptent.</footer>
 </body>
@@ -203,7 +203,7 @@ def main() -> None:
     manifest_path = (arg if arg.suffix == ".json"
                      else FIDELITY_DIR / arg.name / "manifest.json")
     if not manifest_path.is_file():
-        die(f"manifest introuvable : {manifest_path} — la skill /finalize-rf "
+        die(f"manifest introuvable : {manifest_path}, la skill /finalize-rf "
             "l'écrit à l'étape « fidélité visuelle »")
 
     try:

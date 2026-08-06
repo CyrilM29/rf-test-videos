@@ -4,7 +4,7 @@ description: Transcrit une vidéo de test manuel en plan de test (specs/) puis e
 argument-hint: videos/<fichier>.mp4 [--language fr] [--model small]
 ---
 
-# /video-to-rf — vidéo → spec → suite Robot Framework
+# /video-to-rf : vidéo → spec → suite Robot Framework
 
 Suivre TOUTES les étapes, dans l'ordre. Les conventions du CLAUDE.md
 s'appliquent en permanence (1 : zéro localisateur dans les tests ; 2 : zéro
@@ -29,13 +29,13 @@ vérité ; 5 : keyword manquant explicite).
 - Lire **toutes** les frames de `work/<slug>/frames/` dans l'ordre du
   storyboard, par lots de 6 à 8 appels Read en parallèle par message. Si la
   vidéo en produisait trop, le script a déjà échantillonné (et écarté les
-  quasi-doublons — dHash) et l'a dit ; ne jamais sous-échantillonner
+  quasi-doublons : dHash) et l'a dit ; ne jamais sous-échantillonner
   davantage en silence.
 - Tenir un relevé étape par étape : `[t]` écran visible, action déduite du
   passage frame N → N+1, données saisies (valeurs lues à l'écran), résultat
-  visible. Ce qui est flou ou incertain est noté comme tel — jamais inventé.
+  visible. Ce qui est flou ou incertain est noté comme tel, jamais inventé.
 
-## 3. Choisir la ou les librairies de pilotage (checkpoint — AVANT toute génération)
+## 3. Choisir la ou les librairies de pilotage (checkpoint : AVANT toute génération)
 
 - Déduire du relevé de l'étape 2 les **canaux en action** dans la vidéo :
   web, desktop, SAP GUI, Fiori, mobile, appels API visibles… Une vidéo peut
@@ -47,16 +47,16 @@ vérité ; 5 : keyword manquant explicite).
 - **Sinon, s'arrêter et demander** (AskUserQuestion) avant d'écrire quoi que
   ce soit : proposer les librairies candidates par canal (web : Browser,
   SeleniumLibrary ; SAP : librairies SAPFX ; desktop, mobile…), avec une
-  recommandation argumentée — y compris l'**hybridation** quand plusieurs
+  recommandation argumentée : y compris l'**hybridation** quand plusieurs
   canaux cohabitent (une librairie par canal, pas une librairie unique forcée).
 - Acter la décision :
   - librairie du canal **principal** → `Library` dans
     `resources/common.resource` ;
   - librairie propre à un canal **secondaire** → `Library` dans les seuls
-    page objects des écrans de ce canal (jamais dans les suites — convention 1
+    page objects des écrans de ce canal (jamais dans les suites : convention 1
     inchangée : les suites n'importent que des `Resource`) ;
   - dépendance décommentée/épinglée dans `requirements.txt` (installer et
-    vérifier — ex. Browser exige `rfbrowser init` après le pip install) ;
+    vérifier : ex. Browser exige `rfbrowser init` après le pip install) ;
   - décision reportée dans la spec (ligne « Pilotage » de l'en-tête).
 
 ## 4. Écrire la spec
@@ -70,7 +70,7 @@ vérité ; 5 : keyword manquant explicite).
   lu à l'écran (libellés, valeurs, volumétries, formats) va dans « Données
   observées » et « Points de vigilance ».
 - **Capitaliser AVANT d'écrire** : lancer
-  `python scripts/inventory_pages.py` — il liste, par écran, les keywords
+  `python scripts/inventory_pages.py` : il liste, par écran, les keywords
   existants et l'état de leurs locators (« prêt » = déjà relevés sur le SUT :
   réutilisables sans repasser par `/finalize-rf`). Chaque étape référence un
   keyword existant quand il y en a un ; sinon l'inscrire dans « Keywords
@@ -80,11 +80,11 @@ vérité ; 5 : keyword manquant explicite).
 ## 5. Générer la suite
 
 - Chemin : `tests/robot/ui/<domaine>/<slug>.robot` ; domaine déduit de la
-  vidéo — `web` par défaut, `fiori`/`ecc` si SAP, `desktop`, `mobile`.
+  vidéo : `web` par défaut, `fiori`/`ecc` si SAP, `desktop`, `mobile`.
 - En-tête `Documentation` : titre métier, périmètre, référence
-  `Spec: specs/<slug>.md (sha256:<12 hex>, <date du jour>)` — sha calculé par
+  `Spec: specs/<slug>.md (sha256:<12 hex>, <date du jour>)`, sha calculé par
   `(Get-FileHash specs\<slug>.md -Algorithm SHA256).Hash.Substring(0,12).ToLower()`
-  — puis la commande d'exécution complète.
+ , puis la commande d'exécution complète.
 - Imports (jamais de `Library` en direct) :
   `Resource    ../../../../resources/common.resource`, les page objects
   concernés, `Variables    ../../../../variables/env_local.py`.
@@ -104,11 +104,11 @@ vérité ; 5 : keyword manquant explicite).
   (`[Documentation]` = rôle + `specs/<slug>.md` + horodatage vidéo).
 - **Corps des keywords : l'implémentation réelle** avec la librairie du canal
   de l'écran (étape 3), chaque locator utilisé étant gardé par
-  `Require Locator    ${LOCATOR}    specs/<slug>.md` (`common.resource`) —
+  `Require Locator    ${LOCATOR}    specs/<slug>.md` (`common.resource`) :
   le `--dryrun` passe, l'exécution réelle échoue tant que le locator est
   vide. Zéro `Sleep` : attentes sur condition de la librairie. Réserver le
   corps `Fail Missing Locator    specs/<slug>.md` aux seuls keywords dont
-  l'implémentation ne peut pas être écrite (action incertaine dans la vidéo —
+  l'implémentation ne peut pas être écrite (action incertaine dans la vidéo :
   le noter dans la spec). Noms de keywords en **anglais** (convention SAPFX) ;
   documentation en français.
 - Mettre à jour `variables/env_local.py` si la vidéo révèle l'URL ou le host
@@ -131,5 +131,5 @@ Terminer par : scénarios produits ; librairie(s) retenue(s) à l'étape 3 ;
 keywords réutilisés vs créés (implémentés avec locators TODO vs corps
 `Fail Missing Locator`) ; liste des localisateurs à relever sur le SUT ;
 chemins spec + suite + résultat du dry-run. Rappeler que l'exécution réelle
-échouera tant que les TODO ne sont pas renseignés (convention 5) — c'est
+échouera tant que les TODO ne sont pas renseignés (convention 5) : c'est
 voulu.
