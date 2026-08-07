@@ -83,6 +83,7 @@ fidélité visuelle                   ← frames vidéo ↔ captures d'exécutio
 
 | path | rôle |
 | --- | --- |
+| `LICENSE`, `NOTICE` | licence Apache 2.0 (texte canonique, non modifiable) et attribution |
 | `docs/guide-utilisateur.md` | guide utilisateur (capture, skill, branchement SUT, FAQ) : à tenir en phase avec ce fichier |
 | `videos/` | zone de dépôt des vidéos sources (gitignorées, jetables) |
 | `work/<slug>/` | artefacts intermédiaires régénérables : frames, transcription, meta |
@@ -156,6 +157,14 @@ $env:PYTHONIOENCODING='utf-8'; robot --outputdir results/x tests/robot/ui/web/x.
    français (convention SAPFX).
 6. **`work/` et `results/` sont jetables**, régénérables, jamais committés ;
    une vidéo n'est pas un artefact durable : la spec et la suite le sont.
+7. **Tout fichier source porte l'en-tête Apache 2.0**, y compris ceux
+   générés par les skills (suites, page objects, scripts). En Python et en
+   PowerShell : bloc de lignes `#` tout en haut, avant la docstring. En Robot
+   Framework : une section `*** Comments ***` en tête (des `#` bruts avant la
+   première section déclenchent COM04 chez Robocop), suivie de **deux** lignes
+   vides avant `*** Settings ***` (règle SPC03). Texte à recopier tel quel
+   depuis `resources/page_objects/login.resource`. Le Markdown (specs, docs)
+   n'en porte pas : la licence du dépôt vaut pour lui.
 
 ## Pièges connus
 

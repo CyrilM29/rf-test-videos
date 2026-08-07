@@ -78,3 +78,11 @@ $env:PYTHONIOENCODING='utf-8'; robot -v "APP_PASSWORD:Secret:…" --outputdir re
 (Le préfixe d'encodage est inutile dans les terminaux VS Code du projet :
 réglé par `.vscode/settings.json`. Les secrets se passent toujours en CLI,
 jamais dans un fichier.)
+
+## Licence
+
+Distribué sous licence **Apache 2.0** : texte intégral dans `LICENSE`,
+attribution dans `NOTICE`. Usage commercial, modification et redistribution
+sont permis, à condition de conserver l'avis de copyright, la licence et le
+`NOTICE`, et de signaler les fichiers modifiés ; la licence accorde aussi une
+concession de brevet explicite et exclut toute garantie.
